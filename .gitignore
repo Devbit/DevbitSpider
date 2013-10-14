@@ -1,5 +1,8 @@
 *.py[cod]
 
+CrawlerTest.iws
+.idea/workspace.xml
+
 # C extensions
 *.so
 
