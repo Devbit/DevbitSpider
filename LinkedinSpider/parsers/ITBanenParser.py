@@ -13,6 +13,8 @@ class ITBanenParser:
     def parse_profile(hxs):
         vacature = VacatureItem()
         vacature['source'] = "itbanen"
+        details = {}
+        contact = {}
         header = hxs.select("//div[@id='vacature-details']/div[@class='default-huisstijl']/div[contains(@class, 'header')]")
         if header and len(header) == 1:
             header = header[0]
@@ -28,7 +30,7 @@ class ITBanenParser:
                     vacature['company'] = company[0].strip()
                 loc = subheader.select("span[@class='company-location']/a/text()").extract()
                 if loc and len(loc) == 1:
-                    vacature['location'] = loc[0].strip()
+                    details['location'] = loc[0].strip()
 
             date = header.select("div[contains(@class, 'vacature-date')]/span/text()").extract()
             if date and len(date) == 1:
@@ -47,23 +49,53 @@ class ITBanenParser:
                 dd = list.select('dd/text()').extract()
                 x = indexsubstr(dt, "verband")
                 if x > -1:
-                    vacature['job_type'] = dd[x]
+                    details['job_type'] = dd[x]
                 x = indexsubstr(dt, "Uren")
                 if x > -1:
-                    vacature['hours'] = dd[x]
+                    details['hours'] = dd[x]
                 x = indexsubstr(dt, "Opleidingsniveau")
                 if x > -1:
-                    vacature['education_level'] = dd[x]
+                    details['education_level'] = dd[x]
                 x = indexsubstr(dt, "niveau")
                 if x > -1:
-                    vacature['career_level'] = dd[x]
+                    details['career_level'] = dd[x]
                 x = indexsubstr(dt, "Salaris")
                 if x > -1:
-                    vacature['salary'] = dd[x]
+                    details['salary'] = dd[x]
 
             body = vacature_details.select("//div[contains(@class, 'body')]").extract()
             if body and len(body) == 1:
-                vacature['advert_html'] = " ".join(body[0].split())
+                details['advert_html'] = " ".join(body[0].split())
+
+        vacature['details'] = details
+
+        contacthtml = hxs.select("//div[@class='contact-info']/div[@class='inner']")
+        if contacthtml and len(contacthtml) == 1:
+            contacthtml = contacthtml[0]
+            addresshtml = contacthtml.select("address/text()").extract()
+            address = {}
+            if addresshtml and len(addresshtml) == 3:
+                addresshtml = addresshtml[0]
+                addresshtml = [" ".join(x.split()) for x in addresshtml]
+                address['company'] = addresshtml[0]
+                address['street'] = addresshtml[1]
+                splt = addresshtml[2].split(" ")
+                address['postal'] = splt[0]
+                address['city'] = splt[1]
+            gegevens = contacthtml.select('strong[text()="contactgegevens"]')
+            if gegevens and len(gegevens) == 1:
+                gegevens = gegevens[0]
+                brs = gegevens.select("following-sibling::br")
+                name = brs[0].select("following-sibling::text()").extract()[0]
+                name = " ".join(name.split())
+                contact['person'] = name
+                tel = brs[1].select("following-sibling::text()").extract()[0]
+                tel = tel.split("Tel.: ")[1].strip()
+                contact['phone'] = tel
+                #mail = contacthtml.select("a[@id='contact-email-link']")
+            contact['address'] = address
+            vacature['contact'] = contact
+
 
         vacid = hxs.select("//var[@id='vacature-id']/text()").extract()
         if vacid and len(vacid) == 1:

@@ -35,15 +35,19 @@ class VacatureItem(Item):
     source = Field()
     url = Field()
     title = Field()
-    location = Field()
     company = Field()
-    contact_person = Field()
-    phone = Field()
-    salary = Field()
-    job_type = Field()
-    hours = Field()
-    education_level = Field()
-    career_level = Field()
+    contact = Field()
+    #- email
+    #- phone
+    #- person
+    #- address
+    details = Field()
+    #- salary
+    #- job_type
+    #- hours
+    #- education_level
+    #- career_lever
+    #- advert_html
+    #- location
     date_created = Field()
     date_updated = Field()
-    advert_html = Field()
