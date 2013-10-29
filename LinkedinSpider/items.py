@@ -28,3 +28,22 @@ class PersonProfileItem(Item):
     experience = Field()
     overview_html = Field()
     languages = Field()
+
+
+class VacatureItem(Item):
+    _id = Field()
+    source = Field()
+    url = Field()
+    title = Field()
+    location = Field()
+    company = Field()
+    contact_person = Field()
+    phone = Field()
+    salary = Field()
+    job_type = Field()
+    hours = Field()
+    education_level = Field()
+    career_level = Field()
+    date_created = Field()
+    date_updated = Field()
+    advert_html = Field()
