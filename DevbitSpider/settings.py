@@ -8,30 +8,30 @@
 
 from scrapy import log
 
-BOT_NAME = 'LinkedinSpider'
+BOT_NAME = 'DevbitSpider'
 
-SPIDER_MODULES = ['LinkedinSpider.spiders']
-NEWSPIDER_MODULE = 'LinkedinSpider.spiders'
+SPIDER_MODULES = ['DevbitSpider.spiders']
+NEWSPIDER_MODULE = 'DevbitSpider.spiders'
 
 DOWNLOADER_MIDDLEWARES = {
     #'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 90,
-    #'LinkedinSpider.middleware.RandomProxy': 100,
+    #'DevbitSpider.middleware.RandomProxy': 100,
     #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    'LinkedinSpider.middleware.CustomHttpProxyMiddleware': 543,
-    'LinkedinSpider.middleware.CustomUserAgentMiddleware': 545,
-    'LinkedinSpider.middleware.RetryChangeProxyMiddleware': 600,
-    #'LinkedinSpider.middleware.TimedProxyChange': 548,
+    'DevbitSpider.middleware.CustomHttpProxyMiddleware': 543,
+    'DevbitSpider.middleware.CustomUserAgentMiddleware': 545,
+    'DevbitSpider.middleware.RetryChangeProxyMiddleware': 600,
+    #'DevbitSpider.middleware.TimedProxyChange': 548,
 }
 
 TOR_HOST = 'localhost'
 TOR_PORT = 9151
 TOR_PASSW = ''
-TOR_CHANGE_LIMIT = 30
+TOR_CHANGE_LIMIT = 10
 
 ########### Item pipeline
 ITEM_PIPELINES = [
-    #"LinkedinSpider.pipelines.MySQLStorePipeline",
-    #"LinkedinSpider.pipelines.MongoDBPipeline",
+    #"DevbitSpider.pipelines.MySQLStorePipeline",
+    #"DevbitSpider.pipelines.MongoDBPipeline",
 ]
 
 MONGODB_SERVER = 'localhost'
@@ -55,10 +55,10 @@ COOKIES_ENABLED = False
 
 #RETRY_TIMES = 10
 
-RETRY_HTTP_CODES = [999, 500, 503, 504, 400, 403, 404, 408]
+RETRY_HTTP_CODES = [999, 500, 503, 504, 400, 403, 408]
 
 #LOG_FILE = 'log.txt'
-#LOG_LEVEL = log.INFO
+LOG_LEVEL = log.INFO
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'LinkedinSpider (+http://www.yourdomain.com)'
+#USER_AGENT = 'DevbitSpider (+http://www.yourdomain.com)'

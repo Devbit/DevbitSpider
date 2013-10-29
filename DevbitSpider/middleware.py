@@ -72,27 +72,6 @@ class RetryChangeProxyMiddleware(RetryMiddleware):
                 TorCtl.Connection.send_signal(RetryChangeProxyMiddleware.conn, "NEWNYM")
                 RetryChangeProxyMiddleware.last = time.time()
                 log.msg('Proxy changed!', log.INFO)
-            log.msg('Proxy not changed!', log.INFO)
+            else:
+                log.msg('Proxy not changed!', log.INFO)
             return RetryMiddleware._retry(self, request, reason, spider)
-
-
-class RandomProxy(object):
-    def __init__(self, settings):
-        self.proxy_list = settings.get('PROXY_LIST')
-        f = open(self.proxy_list)
-        self.proxies = [l.strip() for l in f.readlines()]
-        f.close()
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(crawler.settings)
-
-    def process_request(self, request, spider):
-        proxy = random.choice(self.proxies)
-        request.meta['proxy'] = proxy
-
-    def process_exception(self, request, exception, spider):
-        proxy = request.meta['proxy']
-        log.msg('Removing failed proxy <%s>, %d proxies left' % (proxy, len(self.proxies)))
-        try: self.proxies.remove(proxy)
-        except ValueError: pass

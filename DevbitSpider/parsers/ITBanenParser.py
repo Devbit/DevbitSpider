@@ -1,4 +1,4 @@
-from LinkedinSpider.items import VacatureItem
+from DevbitSpider.items import VacatureItem
 from datetime import datetime, timedelta
 import re
 
@@ -21,6 +21,8 @@ class ITBanenParser:
             title = header.select("h1/text()").extract()
             if title and len(title) == 1:
                 vacature['title'] = title[0].strip()
+            else:
+                return None
 
             subheader = header.select("div[@class='sub-header']")
             if subheader and len(subheader) == 1:
@@ -34,10 +36,17 @@ class ITBanenParser:
 
             date = header.select("div[contains(@class, 'vacature-date')]/span/text()").extract()
             if date and len(date) == 1:
-                if date[0].strip() not in ["vandaag", "gisteren"]:
-                    N = re.search("\d+", date[0].strip()).group(0)
-                    date = (datetime.now() - timedelta(days=int(N))).strftime("%d-%m-%Y")
+                d = date[0].strip()
+                if d not in ["vandaag", "gisteren"]:
+                    N = re.search("\d+", d).group(0)
+                elif d == "vandaag":
+                    N = 0
+                elif d == "gisteren":
+                    N = 1
+                date = (datetime.now() - timedelta(days=int(N))).strftime("%d-%m-%Y")
                 vacature['date_created'] = date
+        else:
+            return None
 
         vacature_details = hxs.select("//div[@id='vacature-detail-view']")
         if vacature_details and len(vacature_details) == 1:
@@ -75,7 +84,6 @@ class ITBanenParser:
             addresshtml = contacthtml.select("address/text()").extract()
             address = {}
             if addresshtml and len(addresshtml) == 3:
-                addresshtml = addresshtml[0]
                 addresshtml = [" ".join(x.split()) for x in addresshtml]
                 address['company'] = addresshtml[0]
                 address['street'] = addresshtml[1]
@@ -85,13 +93,21 @@ class ITBanenParser:
             gegevens = contacthtml.select('strong[text()="contactgegevens"]')
             if gegevens and len(gegevens) == 1:
                 gegevens = gegevens[0]
+                gevenstext = gegevens.select("following-sibling::text()").extract()
                 brs = gegevens.select("following-sibling::br")
                 name = brs[0].select("following-sibling::text()").extract()[0]
                 name = " ".join(name.split())
                 contact['person'] = name
-                tel = brs[1].select("following-sibling::text()").extract()[0]
-                tel = tel.split("Tel.: ")[1].strip()
-                contact['phone'] = tel
+                telindex = indexsubstr(gevenstext, "Tel")
+                if telindex > -1:
+                    tel = gevenstext[telindex]
+                    tel = tel.split("Tel.: ")[1].strip()
+                    contact['phone'] = tel
+                faxindex = indexsubstr(gevenstext, "Fax")
+                if faxindex > -1:
+                    fax = gevenstext[faxindex]
+                    fax = fax.split("Fax: ")[1].strip()
+                    contact['fax'] = fax
                 #mail = contacthtml.select("a[@id='contact-email-link']")
             contact['address'] = address
             vacature['contact'] = contact
@@ -100,6 +116,10 @@ class ITBanenParser:
         vacid = hxs.select("//var[@id='vacature-id']/text()").extract()
         if vacid and len(vacid) == 1:
             vacature['_id'] = vacid[0]
+
+        logo = hxs.select("//div[@id='detail-page-side']//div[@class='company-logo']/img/@src").extract()
+        if logo and len(logo) == 1:
+            vacature['logo'] = logo[0]
 
         return vacature
 

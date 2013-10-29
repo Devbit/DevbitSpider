@@ -1,4 +1,4 @@
-from LinkedinSpider.items import PersonProfileItem
+from DevbitSpider.items import PersonProfileItem
 import re
 
 

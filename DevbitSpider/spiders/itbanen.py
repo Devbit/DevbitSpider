@@ -6,10 +6,10 @@ from scrapy import log
 from w3lib.url import url_query_cleaner
 from bs4 import UnicodeDammit
 from os import path
-from LinkedinSpider.parsers.ITBanenParser import ITBanenParser
+from DevbitSpider.parsers.ITBanenParser import ITBanenParser
 import os
 
-from LinkedinSpider.items import CrawlertestItem, PersonProfileItem
+from DevbitSpider.items import CrawlertestItem, PersonProfileItem
 
 
 class ITBanenSpider(CrawlSpider):
@@ -32,7 +32,6 @@ class ITBanenSpider(CrawlSpider):
             relative_urls = self.get_follow_links(index_level, hxs)
             if relative_urls is not None:
                 for url in relative_urls:
-                    log.msg(url)
                     yield Request(url, callback=self.parse)
         elif index_level == 3:
             vacature = ITBanenParser.parse_profile(hxs)

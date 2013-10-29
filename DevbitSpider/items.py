@@ -42,6 +42,7 @@ class VacatureItem(Item):
     #- person
     #- address
     details = Field()
+    logo = Field()
     #- salary
     #- job_type
     #- hours

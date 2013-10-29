@@ -5,10 +5,10 @@ from scrapy.selector import HtmlXPathSelector
 from w3lib.url import url_query_cleaner
 from bs4 import UnicodeDammit
 from os import path
-from LinkedinSpider.parsers.LinkedinProfileParser import LinkedinProfileParser
+from DevbitSpider.parsers.LinkedinProfileParser import LinkedinProfileParser
 import os
 
-from LinkedinSpider.items import CrawlertestItem, PersonProfileItem
+from DevbitSpider.items import CrawlertestItem, PersonProfileItem
 
 
 class LinkedinSpider(CrawlSpider):
