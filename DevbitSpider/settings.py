@@ -39,12 +39,6 @@ MONGODB_PORT = 8091
 MONGODB_DB = 'linkedin_crawl'
 MONGODB_COLLECTION = 'profiles'
 MONGODB_UNIQ_KEY = '_id'
-
-SQL_HOST = "localhost"
-SQL_PORT = 3306
-SQL_DB = "linkedin_crawl"
-SQL_USER = "user"
-SQL_PASSWORD = "password"
 ###########
 
 DOWNLOAD_FILE_FOLDER = 'H:\Development\Python\CrawlerTest\Download';

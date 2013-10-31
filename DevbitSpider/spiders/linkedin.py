@@ -92,35 +92,3 @@ class LinkedinSpider(CrawlSpider):
         if find_index >= 0:
             return url[find_index + 13:].replace('/', '-')
         return None
-
-    def save_to_file_system(self, level, response):
-        """
-        save the response to related folder
-        """
-        if level in [1, 2, 3, 4, 5]:
-            fileName = self.get_clean_file_name(level, response)
-            if fileName is None:
-                return
-
-            fn = path.join(self.settings["DOWNLOAD_FILE_FOLDER"], str(level), fileName + ".html")
-            self.create_path_if_not_exist(fn)
-            if not path.exists(fn):
-                with open(fn, "w") as f:
-                    f.write(response.body)
-
-    def get_clean_file_name(self, level, response):
-        """
-        generate unique linkedin id, now use the url
-        """
-        url = response.url
-        if level in [1, 2, 3]:
-            return url.split("/")[-1]
-
-        linkedin_id = self.get_linkedin_id(url)
-        if linkedin_id:
-            return linkedin_id
-        return None
-
-    def create_path_if_not_exist(self, filePath):
-        if not path.exists(path.dirname(filePath)):
-            os.makedirs(path.dirname(filePath))
