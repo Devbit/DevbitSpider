@@ -12,12 +12,12 @@ from DevbitSpider.items import CrawlertestItem, PersonProfileItem
 
 
 class LinkedinSpider(CrawlSpider):
-
     name = "linkedin"
     allowed_domains = ["linkedin.com"]
-    start_urls = [ "http://nl.linkedin.com/directory/people-%s" % s
-                   for s in "abcdefghijklmnopqrstuvwxyz" ]
-    #start_urls = [ "http://nl.linkedin.com/pub/eddy-van-pamelen/7/50/889" ]
+
+    def __init__(self, letters="abcdefghijklmnopqrstuvwxyz"):
+        self.start_urls = ["http://nl.linkedin.com/directory/people-%s" % s
+                           for s in letters]
 
     rules = (
         #Rule(SgmlLinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
