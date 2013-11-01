@@ -7,6 +7,7 @@ from bs4 import UnicodeDammit
 from os import path
 from DevbitSpider.parsers.LinkedinProfileParser import LinkedinProfileParser
 import os
+from bson import ObjectId
 
 from DevbitSpider.items import CrawlertestItem, PersonProfileItem
 
@@ -44,7 +45,8 @@ class LinkedinSpider(CrawlSpider):
             linkedin_id = UnicodeDammit(urllib.unquote_plus(linkedin_id)).markup
             #self.log('ID: ' + linkedin_id)
             if linkedin_id:
-                person_profile['_id'] = linkedin_id
+                person_profile['_id'] = ObjectId().__str__()
+                person_profile['profile_id'] = linkedin_id
                 person_profile['url'] = UnicodeDammit(response.url).markup
                 yield person_profile
 

@@ -5,7 +5,6 @@
 import pymongo
 from scrapy import log
 from twisted.enterprise import adbapi
-import MySQLdb.cursors
 
 
 class CrawlertestPipeline(object):

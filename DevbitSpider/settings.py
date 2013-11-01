@@ -31,7 +31,7 @@ TOR_CHANGE_LIMIT = 10
 ########### Item pipeline
 ITEM_PIPELINES = [
     #"DevbitSpider.pipelines.MySQLStorePipeline",
-    #"DevbitSpider.pipelines.MongoDBPipeline",
+    "DevbitSpider.pipelines.MongoDBPipeline",
 ]
 
 MONGODB_SERVER = 'localhost'

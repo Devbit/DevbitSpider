@@ -12,6 +12,7 @@ class CrawlertestItem(Item):
 
 class PersonProfileItem(Item):
     _id = Field()
+    profile_id = Field()
     url = Field()
     name = Field()
     picture = Field()
