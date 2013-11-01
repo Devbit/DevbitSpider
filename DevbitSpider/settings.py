@@ -34,14 +34,12 @@ ITEM_PIPELINES = [
     "DevbitSpider.pipelines.MongoDBPipeline",
 ]
 
-MONGODB_SERVER = 'localhost'
-MONGODB_PORT = 8091
+MONGODB_SERVER = '145.24.222.238'
+MONGODB_PORT = 27017
 MONGODB_DB = 'linkedin_crawl'
 MONGODB_COLLECTION = 'profiles'
 MONGODB_UNIQ_KEY = '_id'
 ###########
-
-DOWNLOAD_FILE_FOLDER = 'H:\Development\Python\CrawlerTest\Download';
 
 #AUTOTHROTTLE_ENABLED = True
 
@@ -51,7 +49,7 @@ COOKIES_ENABLED = False
 
 RETRY_HTTP_CODES = [999, 500, 503, 504, 400, 403, 408]
 
-#LOG_FILE = 'log.txt'
+LOG_FILE = 'log.txt'
 LOG_LEVEL = log.INFO
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
