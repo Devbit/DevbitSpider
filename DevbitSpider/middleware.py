@@ -67,13 +67,13 @@ class RetryChangeProxyMiddleware(RetryMiddleware):
             RetryChangeProxyMiddleware.timelimit = settings.get('TOR_CHANGE_LIMIT')
 
         if isinstance(reason, basestring):
-            log.msg('Valid retry, reason: ' + reason + ' for URL ' + request.url, log.INFO)
+            #log.msg('Valid retry, reason: ' + reason + ' for URL ' + request.url, log.INFO)
             t = time.time()
             diff = t - RetryChangeProxyMiddleware.last
             if RetryChangeProxyMiddleware.conn and diff > RetryChangeProxyMiddleware.timelimit:
                 TorCtl.Connection.send_signal(RetryChangeProxyMiddleware.conn, "NEWNYM")
                 RetryChangeProxyMiddleware.last = t
-                log.msg('Proxy changed! New last: %s' % time.strftime("%H:%M:%S"), log.INFO)
-            else:
-                log.msg('Proxy not changed! Time difference is %s seconds' % ("{:.2f}".format(diff)), log.INFO)
+                log.msg('Proxy changed for reason %s. New last: %s' % (reason, time.strftime("%H:%M:%S")), log.INFO)
+            #else:
+            #    log.msg('Proxy not changed! Time difference is %s seconds' % ("{:.2f}".format(diff)), log.INFO)
             return RetryMiddleware._retry(self, request, reason, spider)
