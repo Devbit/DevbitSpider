@@ -52,5 +52,7 @@ RETRY_HTTP_CODES = [999, 500, 503, 504, 400, 403, 408]
 LOG_FILE = 'log.txt'
 LOG_LEVEL = log.INFO
 
+DUPEFILTER_CLASS = "DevbitSpider.dupefilter.CustomDupeFilter"
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'DevbitSpider (+http://www.yourdomain.com)'
