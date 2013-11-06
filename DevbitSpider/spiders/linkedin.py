@@ -15,9 +15,9 @@ class LinkedinSpider(CrawlSpider):
     allowed_domains = ["linkedin.com"]
 
     def __init__(self, letters="abcdefghijklmnopqrstuvwxyz"):
-        #self.start_urls = ["http://nl.linkedin.com/directory/people-%s" % s
-        #                   for s in letters]
-        self.start_urls = ["http://nl.linkedin.com/pub/ari%C3%ABn-hooimeijer/9/722/264"]
+        self.start_urls = ["http://nl.linkedin.com/directory/people-%s" % s
+                           for s in letters]
+
 
     rules = (
         #Rule(SgmlLinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
