@@ -36,7 +36,7 @@ ITEM_PIPELINES = [
 
 MONGODB_SERVER = '145.24.222.238'
 MONGODB_PORT = 27017
-MONGODB_DB = 'linkedin_crawl'
+MONGODB_DB = 'linkedin_crawl_full'
 MONGODB_COLLECTION = 'profiles'
 MONGODB_UNIQ_KEY = '_id'
 ###########
