@@ -15,10 +15,11 @@ class LinkedinProfileParser:
             industry = headline.select("dd[@class='industry']/text()").extract()
             if industry and len(industry) == 1:
                 industry = industry[0].strip()
-                if industry in allowed_industries:
-                    person_profile['sector'] = industry
-                else:
-                    return None
+                # if industry in allowed_industries:
+                #     person_profile['sector'] = industry
+                # else:
+                #     return None
+                person_profile['sector'] = industry
             else:
                 return None
             ## locality
