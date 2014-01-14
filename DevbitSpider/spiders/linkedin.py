@@ -4,10 +4,8 @@ from scrapy.http import Request
 from scrapy.selector import HtmlXPathSelector
 from w3lib.url import url_query_cleaner
 from bs4 import UnicodeDammit
-from os import path
 from DevbitSpider.parsers.LinkedinProfileParser import LinkedinProfileParser
-import os
-from bson import ObjectId
+import hashlib
 
 from DevbitSpider.items import CrawlertestItem, PersonProfileItem
 
@@ -19,6 +17,7 @@ class LinkedinSpider(CrawlSpider):
     def __init__(self, letters="abcdefghijklmnopqrstuvwxyz"):
         self.start_urls = ["http://nl.linkedin.com/directory/people-%s" % s
                            for s in letters]
+
 
     rules = (
         #Rule(SgmlLinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
@@ -42,10 +41,13 @@ class LinkedinSpider(CrawlSpider):
             person_profile = LinkedinProfileParser.parse_profile(hxs)
             if person_profile is None:
                 return
-            linkedin_id = UnicodeDammit(urllib.unquote_plus(linkedin_id)).markup
+            linkedin_id = UnicodeDammit(urllib.unquote_plus(linkedin_id)).markup.encode("utf-8")
             #self.log('ID: ' + linkedin_id)
             if linkedin_id:
-                person_profile['_id'] = linkedin_id
+                m = hashlib.md5()
+                m.update(linkedin_id)
+                person_profile['_id'] = UnicodeDammit(m.hexdigest()).markup
+                person_profile['profile_id'] = linkedin_id
                 person_profile['url'] = UnicodeDammit(response.url).markup
                 yield person_profile
 
